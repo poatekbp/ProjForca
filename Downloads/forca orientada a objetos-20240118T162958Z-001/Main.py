@@ -1,43 +1,42 @@
-from Forca import Forca
+from Hangman import Hangman
 import random
 
 class Main:
 
     def __init__(self):            
-        # Instanciando o objeto Forca
-        self.forca = Forca()
+        #Instantiating the Hangman object
+        self.hangman = Hangman()
 
-    def jogar(self):
-        # Chamando a função para jogar
-        self.forca.jogar()
+    def play(self):
+        #Calling the play function
+        self.hangman.play()
 
 if __name__ == "__main__":
-    jogo = Main()
-    jogo.jogar()
-    lista = jogo.forca.ler_arquivo()
-    palavra = jogo.forca.define_palavra(lista)
-    tentativas = (len(palavra) * 2)
-    palavra_secreta = jogo.forca.anonimizar_palavra(palavra)
-    acertos = list(palavra_secreta)
+    game = Main()
+    game.play()
+    word_list = game.hangman.read_file()
+    word = game.hangman.define_word(word_list)
+    trials = (len(word) * 2)
+    hidden_word = game.hangman.anonymize_word(word)
+    corrects = list(hidden_word)
 
-    while (jogo.forca.acertou == False or tentativas >= 1):
+    while (game.hangman.guessed == False or trials >= 1):
         
-        palpite = input("Informe uma letra: ")
-        verificar_acerto = jogo.forca.verifica_acerto(palavra, acertos, palpite)
+        guess = input("Provide a letter: ")
+        game.hangman.check_corrects(word, corrects, guess)
 
-        if (len(palpite) > len(palavra)):
-                palpite = input("Informe uma palavra válida: ")
+        if (len(guess) > len(word)):
+            guess = input("Provide a valid letter: ")
         
-        elif palpite == palavra or acertos == list(palavra):
-            acertou = True
-            print("Parabéns, você acertou!")
+        elif guess == word or corrects == list(word):
+            game.hangman.guessed = True
+            print("Congratulations, you got it right!")
             break
         else: 
-            tentativas = tentativas - 1
-            if(tentativas > 0):
-                print(f"Você ainda tem {tentativas} tentativa(s)!")   
-            elif (tentativas == 0):
-                print("Você perdeu!")
-                print(f"A palavra era {palavra}")
-                break     
-    
+            trials = trials - 1
+            if(trials > 0):
+                print(f"You still have {trials} attempt(s)!")   
+            elif (trials == 0):
+                print("You lost!")
+                print(f"The word was {word}")
+                break
